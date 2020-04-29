@@ -11,16 +11,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+        with:
+          submodules: true  # Fetch Hugo themes
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.68.3'
+      
+      - name: Build
+        run: |
+          cd docs.source 
+          hugo --minify
 
       - name: GCP Authenticate
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '285.0.0'
           service_account_key: ${{ secrets.GCP_SA_KEY }}
+
       - name: Deploy
-        run: gsutil cp \
-          -z html \
-          -a public-read \
-          -r source/* gs://www.iwakero.com/
+        run: gsutil cp -z html -a public-read -r docs/* gs://www.iwakero.com/
