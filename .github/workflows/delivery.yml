@@ -1,0 +1,23 @@
+name: Delivery
+
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  delivery:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v1
+
+      - name: GCP Authenticate
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '285.0.0'
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+      - name: Deploy
+        run: gsutil cp -r source/* gs://www.iwakero.com/
