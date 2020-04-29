@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: |
           cd docs.source 
-          hugo --minify
+          hugo --minify --forceSyncStatic
 
       - name: GCP Authenticate
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
