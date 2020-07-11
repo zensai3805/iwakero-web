@@ -1,7 +1,7 @@
 baseURL = "/"
 publishDir = "../docs"
 title = "iwakero.com"
-languageCode = "en-us"
+languageCode = "ja"
 theme = "devise"
 relativeURLs = true
 enableEmoji = true
@@ -29,6 +29,12 @@ copyright = "&copy; Copyright 2020, ryosei iwai"
     title = "Categories"
     url = "/categories/"
     weight = -90
+  [[menu.main]]
+    identifier = "tags"
+    name = "Tags"
+    title = "tags"
+    url = "/tags/"
+    weight = -80
 
 # Configuration Features
 [params]
