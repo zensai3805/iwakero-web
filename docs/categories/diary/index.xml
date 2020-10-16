@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>diary on iwakero.com</title><link>/categories/diary/</link><description>Recent content in diary on iwakero.com</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; Copyright 2020, ryosei iwai</copyright><lastBuildDate>Sat, 11 Jul 2020 15:44:15 +0900</lastBuildDate><atom:link href="/categories/diary/index.xml" rel="self" type="application/rss+xml"/><item><title>MySQL が結構楽しいなと思い始めた話</title><link>/post/20200711/</link><pubDate>Sat, 11 Jul 2020 15:44:15 +0900</pubDate><guid>/post/20200711/</guid><description>こんなタイトルにすると MySQL ワカル人間になったような印象を受けるが、そんなことはない。まぁ、素直な感想ではある。そんなはなし。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>diary on iwakero.com</title><link>/categories/diary/</link><description>Recent content in diary on iwakero.com</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; Copyright 2020, ryosei iwai</copyright><lastBuildDate>Sat, 17 Oct 2020 02:51:20 +0900</lastBuildDate><atom:link href="/categories/diary/index.xml" rel="self" type="application/rss+xml"/><item><title>[週報] static IP charge を見逃していた話</title><link>/post/20201017/</link><pubDate>Sat, 17 Oct 2020 02:51:20 +0900</pubDate><guid>/post/20201017/</guid><description>更新を目的化してみようという事で、週報を試みてみることにした
+会社でも週報があるのだが、メーリングリストで対象に自分に送られてくるため、「こんなもの見てる人の方が少ないだろう」という事でサボってしまっている(いや、良くないんだけどね)
+会社の週報はサボるが web site の週報は出す、うむ、結構かっこいいではないか。という事で始まる
+最近の仕事 引き続き在宅勤務だが、弊部署は「来たければ来て良い」というスタンスなので、行きたい日に行っている
+MySQL の master 統合のはなし 最近は DB の master 統合をパツパツとやっていて、これが結構重いタスクなので多少ヒィヒィしていた。職場では MySQL の master は無停止で切替・統合・分割(sharding) する事も多い。そんな事が書かれている記事も貼っておく
+MySQLやSSDとかの話・前編 https://www.slideshare.net/greetech/mysqlssd-56187695
+ただ、慣れれば快適という所で、2回目は見るポイントも絞る事ができ、初回の半分程度の時間で終わった。このタスクの楽しい所は、リアルタイムでユーザーからの参照がバツっと切り替わる所である
+RTA(Real Time Attack) っぽい要素がある事は否定しないが、リスクの大きい作業であるので流石にその意識は持たないようにしている
+Oracle Developer Live 木曜日に Oracle Developer Live があり、配信を見ながら仕事をしていた
+https://developer.oracle.com/jp/developer-live/
+MySQL 全然分からん民なので新機能の話をされてもどれが既存でどれが新機能か分からない所も多々あるのだが、 Group Replication の話は夢が膨らむし職場で動く姿を見てみたい。この辺、とりあえず大規模な本番環境が目の前にある事は何より貴重だと思うので、がんばろーというところ
+Vitess に関しては以前フラッと聞いた事があったのだが、職場の方曰く最近また注目が集まっているらしいので、ちょっと触ろうと思った
+20卒君のはなし 職場の僕のいるインフラ部にも20卒の新卒の子が配属されており、半年ほどが経った(つまり、自分が入社して1年半が過ぎた…)
+在宅勤務は間違いなく新入社員のオンボーディングを難しくしているし、去年の自分を思い返すと、常に先輩が横にいてフラッと聞ける環境があった事を思い出す。そして何より、 1on1 で「最近あれ触ってみた」等の話をしたのが楽しかった事を思い出した
+まぁ何より僕も仲良くしたいよねという事で、僕のわがままで同じ19卒の同期も誘って3人で雑談する会を開いてみている
+現時点では既に2回開催したのだが、どうにも僕が好き勝手喋ったり、不自然に話を降るなどぎこちな〜い感じになっていて難しい。まぁ、そもそも20卒の子に最近どうよって聞くところから始めるべきだよなと思ったので、来週からそうしてみよー
+最近の遊び マジックザギャザリングが趣味のひとつなのだが、最近のスタンダート(最新2年分のカードが使えるルール)が酷すぎる。禁止が5年に1回なんて言われた時代はとうの昔、もうこんなルールで遊ぶのは罰ゲームである
+そんな MTG への諦めの感情が強かった中、職場で遊んだ EDH に感動した
+勝ち負けにイライラせず、笑ったり茶番をしながら遊ぶゲームには、 MTG の楽しさが詰まっていた。 MTGArena は対戦の機会を与えてくれるが、それは MTG の楽しさのほんの一部を提供してくれているだけだという事を改めて認識した。是非このルールをもっと遊びたい</description></item><item><title>MySQL が結構楽しいなと思い始めた話</title><link>/post/20200711/</link><pubDate>Sat, 11 Jul 2020 15:44:15 +0900</pubDate><guid>/post/20200711/</guid><description>こんなタイトルにすると MySQL ワカル人間になったような印象を受けるが、そんなことはない。まぁ、素直な感想ではある。そんなはなし。
 最近のこと インフラ部での仕事も2年目になり、1-6月の半期も終わった。この半年は職場の変化・業務内容の変化が大きい中、成果としては結構満足のいく所だったように思う。
 変化としては、大きいのが2点ほど。
 職場環境が在宅勤務になった 所属している RDBMS unit の担当業務・自分の判断領域が増えた 在宅勤務については自宅環境を結構整えた事でマイナスが結構少なかった事、意外とプラスの面も多かった事など話はあるが、あまり興味が無いので skip。
