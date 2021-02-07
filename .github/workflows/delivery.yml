@@ -31,7 +31,7 @@ jobs:
         with:
           author_name: iwakero-actions
           author_email: ${{ secrets.IWAKERO_EMAIL_ADDRESS }}
-          message: "Build hugo and push contents"
+          message: "[GitHub Action] Build hugo and push contents"
           add: 'docs'
           
       - name: GCP Authenticate
