@@ -1,23 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>MySQL on iwakero.com</title>
-    <link>/tags/mysql/</link>
-    <description>Recent content in MySQL on iwakero.com</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>ja</language>
-    <copyright>&amp;copy; Copyright 2020, ryosei iwai</copyright>
-    <lastBuildDate>Sat, 11 Jul 2020 15:44:15 +0900</lastBuildDate><atom:link href="/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>MySQL が結構楽しいなと思い始めた話</title>
-      <link>/post/20200711/</link>
-      <pubDate>Sat, 11 Jul 2020 15:44:15 +0900</pubDate>
-      
-      <guid>/post/20200711/</guid>
-      <description>こんなタイトルにすると MySQL ワカル人間になったような印象を受けるが、そんなことはない。まぁ、素直な感想ではある。そんなはなし。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>MySQL on iwakero.com</title><link>/tags/mysql/</link><description>Recent content in MySQL on iwakero.com</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; Copyright 2020, ryosei iwai</copyright><lastBuildDate>Sat, 11 Jul 2020 15:44:15 +0900</lastBuildDate><atom:link href="/tags/mysql/index.xml" rel="self" type="application/rss+xml"/><item><title>MySQL が結構楽しいなと思い始めた話</title><link>/post/20200711/</link><pubDate>Sat, 11 Jul 2020 15:44:15 +0900</pubDate><guid>/post/20200711/</guid><description>こんなタイトルにすると MySQL ワカル人間になったような印象を受けるが、そんなことはない。まぁ、素直な感想ではある。そんなはなし。
 最近のこと インフラ部での仕事も2年目になり、1-6月の半期も終わった。この半年は職場の変化・業務内容の変化が大きい中、成果としては結構満足のいく所だったように思う。
 変化としては、大きいのが2点ほど。
- 職場環境が在宅勤務になった 所属している RDBMS unit の担当業務・自分の判断領域が増えた  在宅勤務については自宅環境を結構整えた事でマイナスが結構少なかった事、意外とプラスの面も多かった事など話はあるが、あまり興味が無いので skip。
+職場環境が在宅勤務になった 所属している RDBMS unit の担当業務・自分の判断領域が増えた 在宅勤務については自宅環境を結構整えた事でマイナスが結構少なかった事、意外とプラスの面も多かった事など話はあるが、あまり興味が無いので skip。
 RDBMS unit の話 ざっくりな話 最初に unit って何だよという話をすると、チーム横断で専門領域毎に活動するサブチームである。僕は今は RDBMS unit と KVS unit に所属している。
 僕は入社するまで MySQL の知識はほとんど無かった訳だが、 Mgr の「Hadoop/Spack 辺り専門らしいから、同じデータ系かなって」との事で MySQL unit に入った。
 上の発言は〇されても仕方ない言葉だとは思うが、結果的にグリーの RDBMS unit は強者が集まり育成意識の強い場所であり、新卒には &amp;ldquo;アタリ&amp;rdquo; の場所だと思っている。
@@ -28,8 +12,4 @@ MySQL 徹底入門第4版の話 この1年はどちらかと言えば場当た�
 上記の流れがあり、もう少し体系的に知りたい欲が出たので最近は これ を読んでいる。
 特に6章が読んでいて面白く、過去にあった業務が所々頭に浮かび、「あぁ、同じことを確かやったなぁ」「あの指示はそういう事だったのか」とポコポコ出てくるのも楽しい。これは実際に業務を経験したが上の体験だと思うので、今読めて良かったと思う。
 おわり ちょっとダラダラ書いてしまったので、最後に関係ない話をすると。
-実は、 https になりました。</description>
-    </item>
-    
-  </channel>
-</rss>
+実は、 https になりました。</description></item></channel></rss>
