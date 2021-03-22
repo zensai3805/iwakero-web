@@ -1,23 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>diary on iwakero.com</title>
-    <link>/categories/diary/</link>
-    <description>Recent content in diary on iwakero.com</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>ja</language>
-    <copyright>&amp;copy; Copyright 2020, ryosei iwai</copyright>
-    <lastBuildDate>Sat, 11 Jul 2020 15:44:15 +0900</lastBuildDate><atom:link href="/categories/diary/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>MySQL が結構楽しいなと思い始めた話</title>
-      <link>/post/20200711/</link>
-      <pubDate>Sat, 11 Jul 2020 15:44:15 +0900</pubDate>
-      
-      <guid>/post/20200711/</guid>
-      <description>こんなタイトルにすると MySQL ワカル人間になったような印象を受けるが、そんなことはない。まぁ、素直な感想ではある。そんなはなし。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>diary on iwakero.com</title><link>/categories/diary/</link><description>Recent content in diary on iwakero.com</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; Copyright 2020, ryosei iwai</copyright><lastBuildDate>Sat, 11 Jul 2020 15:44:15 +0900</lastBuildDate><atom:link href="/categories/diary/index.xml" rel="self" type="application/rss+xml"/><item><title>MySQL が結構楽しいなと思い始めた話</title><link>/post/20200711/</link><pubDate>Sat, 11 Jul 2020 15:44:15 +0900</pubDate><guid>/post/20200711/</guid><description>こんなタイトルにすると MySQL ワカル人間になったような印象を受けるが、そんなことはない。まぁ、素直な感想ではある。そんなはなし。
 最近のこと インフラ部での仕事も2年目になり、1-6月の半期も終わった。この半年は職場の変化・業務内容の変化が大きい中、成果としては結構満足のいく所だったように思う。
 変化としては、大きいのが2点ほど。
- 職場環境が在宅勤務になった 所属している RDBMS unit の担当業務・自分の判断領域が増えた  在宅勤務については自宅環境を結構整えた事でマイナスが結構少なかった事、意外とプラスの面も多かった事など話はあるが、あまり興味が無いので skip。
+職場環境が在宅勤務になった 所属している RDBMS unit の担当業務・自分の判断領域が増えた 在宅勤務については自宅環境を結構整えた事でマイナスが結構少なかった事、意外とプラスの面も多かった事など話はあるが、あまり興味が無いので skip。
 RDBMS unit の話 ざっくりな話 最初に unit って何だよという話をすると、チーム横断で専門領域毎に活動するサブチームである。僕は今は RDBMS unit と KVS unit に所属している。
 僕は入社するまで MySQL の知識はほとんど無かった訳だが、 Mgr の「Hadoop/Spack 辺り専門らしいから、同じデータ系かなって」との事で MySQL unit に入った。
 上の発言は〇されても仕方ない言葉だとは思うが、結果的にグリーの RDBMS unit は強者が集まり育成意識の強い場所であり、新卒には &amp;ldquo;アタリ&amp;rdquo; の場所だと思っている。
@@ -28,27 +12,14 @@ MySQL 徹底入門第4版の話 この1年はどちらかと言えば場当た�
 上記の流れがあり、もう少し体系的に知りたい欲が出たので最近は これ を読んでいる。
 特に6章が読んでいて面白く、過去にあった業務が所々頭に浮かび、「あぁ、同じことを確かやったなぁ」「あの指示はそういう事だったのか」とポコポコ出てくるのも楽しい。これは実際に業務を経験したが上の体験だと思うので、今読めて良かったと思う。
 おわり ちょっとダラダラ書いてしまったので、最後に関係ない話をすると。
-実は、 https になりました。</description>
-    </item>
-    
-    <item>
-      <title>外出できないのでサイトを作ってみた</title>
-      <link>/post/20200430/</link>
-      <pubDate>Thu, 30 Apr 2020 01:51:03 +0900</pubDate>
-      
-      <guid>/post/20200430/</guid>
-      <description>最近のこと 大学院卒業前にせっかく作った hatena blog も就職後はロクに更新もせず、無人広告塔に成り果ててしまった。仕事は楽しく非常に勉強にもなっているが、自分だけの勉強はこの1年どうだったかと言うと難しい。
+実は、 https になりました。</description></item><item><title>外出できないのでサイトを作ってみた</title><link>/post/20200430/</link><pubDate>Thu, 30 Apr 2020 01:51:03 +0900</pubDate><guid>/post/20200430/</guid><description>最近のこと 大学院卒業前にせっかく作った hatena blog も就職後はロクに更新もせず、無人広告塔に成り果ててしまった。仕事は楽しく非常に勉強にもなっているが、自分だけの勉強はこの1年どうだったかと言うと難しい。
 そこで、GW 初日にまた自分のサイトを作ってみた。理由としては、やはりインフラエンジニアとして勉強を重ねるなら、やはり自分の環境は必要であると言うことが身にしみて分かったからだ。重ねて、新卒採用の面談などを繰り返す内に徐々に自分の知らない web フレームワークが増えていたので、流石に触れていこうと触発されたのもある。
 と言う事で、この記事では本web siteの構成について軽く触れる。
 web site を作ってみたこと 構成 構成は最初はシンプルにしようと、数時間で作れる構成とした。
- https://github.com/zensai3805/iwakero-web
- HUGO で生成した静的ファイルを github 上の Action で build し、そのまま Google Cloud Storage へ Upload している。action の yml は以下だ。
- https://github.com/zensai3805/iwakero-web/blob/master/.github/workflows/delivery.yml
- web front をさっくり用意したかった事、 github action で CD を触ってみたかった事、今後 GCP(GKE) にも手を伸ばそうという事で、最低限の要素を押さえてみた。
+https://github.com/zensai3805/iwakero-web
+HUGO で生成した静的ファイルを github 上の Action で build し、そのまま Google Cloud Storage へ Upload している。action の yml は以下だ。
+https://github.com/zensai3805/iwakero-web/blob/master/.github/workflows/delivery.yml
+web front をさっくり用意したかった事、 github action で CD を触ってみたかった事、今後 GCP(GKE) にも手を伸ばそうという事で、最低限の要素を押さえてみた。
 感想 感想としては、素直に楽しい。リポジトリへ push から始まり流れていく様は気持ちがよく、何より簡単だ。
 今後の予定としては、
- hugo はそもそも自分で deploy をする仕組みがあるので、 gsutil から移行する https へ対応する CSS まわり調整する  hugo はtheme内の file を override する機能があるが、上手くいっていない   Google Cloud Storage からもう少し複雑な構成を試してみる。(目的も勉強だし) 更新する環境や体制をもう少しよくしようー  と言った所だ。</description>
-    </item>
-    
-  </channel>
-</rss>
+hugo はそもそも自分で deploy をする仕組みがあるので、 gsutil から移行する https へ対応する CSS まわり調整する hugo はtheme内の file を override する機能があるが、上手くいっていない Google Cloud Storage からもう少し複雑な構成を試してみる。(目的も勉強だし) 更新する環境や体制をもう少しよくしようー と言った所だ。</description></item></channel></rss>
