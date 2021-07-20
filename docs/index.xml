@@ -79,5 +79,5 @@ web front をさっくり用意したかった事、 github action で CD を触
 今後の予定としては、
 hugo はそもそも自分で deploy をする仕組みがあるので、 gsutil から移行する https へ対応する CSS まわり調整する hugo はtheme内の file を override する機能があるが、上手くいっていない Google Cloud Storage からもう少し複雑な構成を試してみる。(目的も勉強だし) 更新する環境や体制をもう少しよくしようー と言った所だ。</description></item><item><title>Hello</title><link>/post/hello/</link><pubDate>Wed, 29 Apr 2020 21:20:08 +0900</pubDate><guid>/post/hello/</guid><description>first post.</description></item><item><title>About</title><link>/about/</link><pubDate>Wed, 29 Apr 2020 19:22:48 +0900</pubDate><guid>/about/</guid><description>2013/04 - 2017/03
 北海道大学 工学部 情報エレクトロニクス学科 情報工学コース 2017/04 - 2019/03
-北海道大学大学院 情報科学研究科 情報理工学専攻 2020/04 - Today
+北海道大学大学院 情報科学研究科 情報理工学専攻 2019/04 - Today
 GREE, Inc.</description></item></channel></rss>
