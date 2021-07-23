@@ -20,6 +20,7 @@ jobs:
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: '0.86.0'
+          extended: true
 
       - name: Delete old docs
         run: |
