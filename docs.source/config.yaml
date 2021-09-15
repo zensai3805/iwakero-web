@@ -10,8 +10,6 @@ paginate: 4
 defaultContentLanguage: en
 
 hasCJKLanguage: true
-permalinks:
-  posts: /posts/:title/
 
 # googleAnalytics: your-google-analytics-id
 # disqusShortname: your-disqus-shortname
