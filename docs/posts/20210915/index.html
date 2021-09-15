@@ -27,7 +27,7 @@
 ·
 </span>
 <span>
-1519 words
+1568 words
 </span>
 <span class=split>
 ·
@@ -91,7 +91,8 @@
 </ul>
 <p>で対応する事がプラクティスとして言われている</p>
 <p>pod の READY になる条件に target group 側でヘルスチェックが通ってる事を追加する事で rolling update 時の性急な terminate を抑制するのは分かるが、これはつまり notREADY な pod が target group に登録されているということ</p>
-<p>では、ALB から見て pod がアクセスを捌けるという事はどうやって保証しているのか？</p>
+<p>では、ALB から見て pod がアクセスを捌けるという事はどうやって保証しているのか？
+(この場合、target group で HEALTY な事は pod がアクセスを捌けるという事を保証している訳ではないと考えた)</p>
 <p>本記事では albc のコードを読み解くことで、上記の問題への対応を見ていく</p>
 <h2 id=詳細>詳細 <a href=#%e8%a9%b3%e7%b4%b0 class=anchor>#</a></h2><p>以下のコードを読んでいく</p>
 <blockquote>
