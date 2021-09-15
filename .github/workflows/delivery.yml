@@ -40,7 +40,7 @@ jobs:
           add: 'docs'
           
       - name: GCP Authenticate
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@master
         with:
           version: '285.0.0'
           service_account_key: ${{ secrets.GCP_SA_KEY }}
