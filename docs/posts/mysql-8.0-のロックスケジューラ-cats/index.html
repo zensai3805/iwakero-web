@@ -1,0 +1,136 @@
+<!doctype html><html lang=en-us>
+<head>
+<title>MySQL 8.0 のロックスケジューラ CATS | iwakero.com</title>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content="MySQL 8.0.3 にて Innodb の default にされたロックスケジューラ CATS について調べたので、自分なりにまとめてみる CATS のはなし #CATS の略 #Contention-Aware Transaction Scheduling の略 日本語訳すると、コンテンション">
+<meta name=generator content="Hugo 0.86.0">
+<meta name=ROBOTS content="NOINDEX, NOFOLLOW">
+<link rel=stylesheet href=/css/style.css>
+<link rel="shortcut icon" href=/images/favicon.ico type=image/x-icon>
+</head>
+<body>
+<nav class=navigation>
+<a href=/> <span class=arrow>←</span>Home</a>
+<a href=/posts>Archive</a>
+<a href=/tags>Tags</a>
+<a href=/about>About</a>
+<a class=button href=https://iwakero.com/index.xml>Subscribe</a>
+</nav>
+<main class=main>
+<section id=single>
+<h1 class=title>MySQL 8.0 のロックスケジューラ CATS</h1>
+<div class=tip>
+<time datetime="2021-03-21 14:52:42 +0900 +0900">Mar 21, 2021</time>
+<span class=split>
+·
+</span>
+<span>
+2250 words
+</span>
+<span class=split>
+·
+</span>
+<span>
+5 minute read
+</span>
+</div>
+<aside class=toc>
+<div>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#cats-のはなし>CATS のはなし</a>
+<ul>
+<li><a href=#cats-の略>CATS の略</a></li>
+<li><a href=#ロックスケジューラについて>ロックスケジューラについて</a></li>
+<li><a href=#cats-の仕組み>CATS の仕組み</a>
+<ul>
+<li><a href=#疑問1-タクシーの運転手永遠にコーヒー飲めない問題>疑問1. タクシーの運転手、永遠にコーヒー飲めない問題</a></li>
+<li><a href=#疑問2-トランザクションの優先度の観点の問題>疑問2. トランザクションの優先度の観点の問題</a></li>
+</ul>
+</li>
+<li><a href=#参考>参考</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</aside>
+<div class=content>
+<p>MySQL 8.0.3 にて Innodb の default にされたロックスケジューラ CATS について調べたので、自分なりにまとめてみる</p>
+<h1 id=cats-のはなし>CATS のはなし <a href=#cats-%e3%81%ae%e3%81%af%e3%81%aa%e3%81%97 class=anchor>#</a></h1><h2 id=cats-の略>CATS の略 <a href=#cats-%e3%81%ae%e7%95%a5 class=anchor>#</a></h2><p><code>Contention-Aware Transaction Scheduling</code> の略</p>
+<p>日本語訳すると、コンテンションを意識したトランザクションスケジューリング。</p>
+<h2 id=ロックスケジューラについて>ロックスケジューラについて <a href=#%e3%83%ad%e3%83%83%e3%82%af%e3%82%b9%e3%82%b1%e3%82%b8%e3%83%a5%e3%83%bc%e3%83%a9%e3%81%ab%e3%81%a4%e3%81%84%e3%81%a6 class=anchor>#</a></h2><p>ロックスケジューラーは、複数のトランザクションが同一のオブジェクトのロックを取ろうとした時、どれが最初にロックを取るべきかを決定する。</p>
+<p>どのトランザクションを優先すべきかはグラフの依存関係の解決が必要であり、NP困難となる例が多い。そのため 8.0 より前の MySQL や多くの database system では、 FIFO(First-In-First-Out)系のアルゴリズムを採用している。要は最初に要求がきたトランザクションにそのロックを与える方式で、これはシンプルである。</p>
+<p>CATAS は上記従来のアルゴリズムよりレイテンシーを減少させ、スループットを向上させるアルゴリズムとして提案された。</p>
+<h2 id=cats-の仕組み>CATS の仕組み <a href=#cats-%e3%81%ae%e4%bb%95%e7%b5%84%e3%81%bf class=anchor>#</a></h2><p>CATS はひとつの単純な直感に基づいている。</p>
+<p>「全てのトランザクションは等価ではなく、全てのオブジェクトも等価ではない」</p>
+<p>あるトランザクションが既に多くのトランザクションが待っているオブジェクトのロックを取っているなら、そのトランザクションが新たに要求するロックは、優先的に与えられるべきである。何故なら、このようなトランザクションのロックを優先して開放していく事は、全体としてより多くのロックを開放する事に繋がるからである。</p>
+<p>例えるなら同じコーヒーの行列に並ぶタクシー運転手とバスの運転手。バスの運転手に優先してコーヒーを提供する事は、結果的により多くの人をより早く目的地に到着させる。</p>
+<p>ただし、CATS は常に適用されている訳ではなく、待機しているトランザクションが 32 を超える場合に適用される。この数字はテストによって決定された。</p>
+<p>( 確かにパフォーマンス比較をみると、 client 数が 64 を超えない限りは FIFO と CATS に差がない、比較はブログ参照 )</p>
+<p>以下、読んでいて感じた疑問と、その解決</p>
+<h3 id=疑問1-タクシーの運転手永遠にコーヒー飲めない問題>疑問1. タクシーの運転手、永遠にコーヒー飲めない問題 <a href=#%e7%96%91%e5%95%8f1-%e3%82%bf%e3%82%af%e3%82%b7%e3%83%bc%e3%81%ae%e9%81%8b%e8%bb%a2%e6%89%8b%e6%b0%b8%e9%81%a0%e3%81%ab%e3%82%b3%e3%83%bc%e3%83%92%e3%83%bc%e9%a3%b2%e3%82%81%e3%81%aa%e3%81%84%e5%95%8f%e9%a1%8c class=anchor>#</a></h3><p>個人的疑問としては、この手のスケジューリングの問題として、結果優先度が低いやつが永遠に待たされる問題がよく挙げられる。</p>
+<p>と思って調べたら、既に<a href=https://mysqlserverteam.com/contention-aware-transaction-scheduling-arriving-in-innodb-to-boost-performance/#comment-18329 target=_blank rel=noopener>ブログ</a>で質問がされていた。</p>
+<p>===</p>
+<p>スタベーションの問題はどう扱っていますか？</p>
+<p>例に挙げられているバスとタクシーではバスを優先する事は理にかなっていますが、常にバスのキューが2つ並んでいると、タクシーには順番は回ってきません。このようなケースは自然に解決されますか？</p>
+<p>Peter Zaitsev</p>
+<p>===</p>
+<p>この質問への回答は、</p>
+<p><strong>1. バスとタクシーの例はあるが、実際には全てのトランザクションはタクシーである</strong></p>
+<p>確かにこれは例えの罠で、トランザクションがロックを取った時点では、そのトランザクションを待っている大量のトランザクションというのは存在しない。時間経過と共に増えていくので、常に大量のトランザクションを待たせた奴が来続けるという状況は多くはないのか。</p>
+<p><strong>2. 色々対策のアルゴリズムも入っている</strong></p>
+<p>挙げられているものは、</p>
+<ol>
+<li>ロックの待機時間が長いトランザクションの優先度を上げる</li>
+<li>ロックキューに時々バリアを入れて、バリアの前のキューを捌くようにする</li>
+</ol>
+<p>などなど、今後新たに導入される奴もあるらしい。</p>
+<h3 id=疑問2-トランザクションの優先度の観点の問題>疑問2. トランザクションの優先度の観点の問題 <a href=#%e7%96%91%e5%95%8f2-%e3%83%88%e3%83%a9%e3%83%b3%e3%82%b6%e3%82%af%e3%82%b7%e3%83%a7%e3%83%b3%e3%81%ae%e5%84%aa%e5%85%88%e5%ba%a6%e3%81%ae%e8%a6%b3%e7%82%b9%e3%81%ae%e5%95%8f%e9%a1%8c class=anchor>#</a></h3><p>トランザクションの全体での優先度の観点について、待っているトランザクションの数を重要度として採用する事の根拠を知りたかった。</p>
+<p>この辺は、<a href=https://dl.acm.org/doi/10.1145/3187009.3177740 target=_blank rel=noopener>論文</a>を読んだ所ある程度書いてあった。</p>
+<p>トランザクションの依存関係グラフからリアルタイムに正確な優先度を求める事は難しいので、ヒューリスティックに優先度を求める必要がある。そこで論文では以下のように色々な観点を比較している。</p>
+<p><strong>案1. 取得しているロックの合計数</strong></p>
+<p>Most Locks First(MLF)と呼ばれる。</p>
+<p>最も多くのオブジェクトをロックしているトランザクションを優先する手法。この観点は、各オブジェクトの人気度を反映していない。例えば誰も参照しないオブジェクトをいくらロックを取っても全体の処理効率に影響は少ない。</p>
+<p><strong>案2. トランザクションを待たせているロックの合計数</strong></p>
+<p>MostBlocking Locks First(MBLF)と呼ばれる。</p>
+<p>案1と違って、他トランザクションを待たせていない不人気なオブジェクトのロックは無視されている所が改善。ただし、トランザクションを待たせているか否かのゼロイチであるので、さらにその後ろにどれだけ待っているかは考慮していない。</p>
+<p><strong>案3. 依存関係サブグラフの深さ</strong></p>
+<p>DeepestDependency First(DDF)と呼ばれる。</p>
+<p>案1,2 は水平競合と呼ばれるものに焦点を当てている一方、DDFは垂直競合に焦点を当てている。グラフが深いほどに待たせているトランザクションが多い事が期待されるが、正確ではない。</p>
+<p><strong>案4. サブグラフ内の依存関係の数(提案手法)</strong></p>
+<p>Largest-Dependency-Set-First(LDSF)と呼ばれる。</p>
+<p>依存関係のサブグラフにおいて、もっとも依存関係が多いサブグラフを持つトランザクションを優先する。これは、そのトランザクションの下に吊り下がっているトランザクションの合計値で表す事ができる。</p>
+<p><strong>案その他</strong></p>
+<p>各トランザクションの実行時間などは問題の単純化のため考慮していないが、今後機械学習とか導入して、ロックのアクセスパターンや実行時間を考慮できると良いよね、程度に触れている。</p>
+<h2 id=参考>参考 <a href=#%e5%8f%82%e8%80%83 class=anchor>#</a></h2><p><a href=http://mysqlserverteam.com/contention-aware-transaction-scheduling-arriving-in-innodb-to-boost-performance/ target=_blank rel=noopener>Contention-Aware Transaction Scheduling Arriving in InnoDB to Boost Performance | MySQL Server Blog</a></p>
+<p><a href=https://dl.acm.org/doi/abs/10.1145/3177732.3177740 target=_blank rel=noopener>Contention-aware lock scheduling for transactional databases | ACM</a></p>
+<p><a href=https://masato.ushio.org/blog/index.php/2018/03/04/uco-tech_mysql-8-0_trx_scheduling_cats/ target=_blank rel=noopener>UCO-Tech（MySQL 8.0のトランザクションスケジューリング：CATS）| UCOブログ</a></p>
+</div>
+<div class=tags>
+<a href=https://iwakero.com/tags/mysql>MySQL</a>
+</div>
+</section>
+</main>
+<footer id=footer>
+<div id=social>
+<a class=symbol href=https://github.com/zensai3805 rel=me target=_blank><svg fill="#bbb" width="28" height="28" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>Github</title><desc>Created with Sketch.</desc><defs/><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="Social-Icons---Rounded-Black" transform="translate(-264.000000, -939.000000)"><g id="Github" transform="translate(264.000000, 939.000000)"><path d="M8 72H64c4.418278.0 8-3.581722 8-8V8c0-4.418278-3.581722-8-8-8H8c-4.418278 811624501e-24-8 3.581722-8 8V64c541083001e-24 4.418278 3.581722 8 8 8z" id="Rounded" fill="#bbb"/><path d="M35.9985 13C22.746 13 12 23.7870921 12 37.096644c0 10.6440272 6.876 19.6751861 16.4145 22.8617681C29.6145 60.1797862 30.0525 59.4358488 30.0525 58.7973276 30.0525 58.2250681 30.0315 56.7100863 30.0195 54.6996482c-6.6765 1.4562499-8.085-3.2302544-8.085-3.2302544-1.0905-2.7829884-2.664-3.5239139-2.664-3.5239139C17.091 46.4500754 19.4355 46.4801943 19.4355 46.4801943c2.4075.1701719 3.675 2.4833051 3.675 2.4833051 2.142 3.6820383 5.6175 2.6188404 6.9855 2.0014024C30.3135 49.4077535 30.9345 48.3460615 31.62 47.7436831 26.2905 47.1352808 20.688 45.0691228 20.688 35.8361671c0-2.6308879.9345-4.781379 2.4705-6.4665327C22.911 28.7597262 22.0875 26.3110578 23.3925 22.9934585c0 0 2.016-.6475568 6.6 2.4697516C31.908 24.9285993 33.96 24.6620468 36.0015 24.6515052 38.04 24.6620468 40.0935 24.9285993 42.0105 25.4632101c4.581-3.1173084 6.5925-2.4697516 6.5925-2.4697516C49.9125 26.3110578 49.089 28.7597262 48.8415 29.3696344 50.3805 31.0547881 51.309 33.2052792 51.309 35.8361671c0 9.2555448-5.6115 11.29309-10.9575 11.8894446.860999999999997.7439374 1.629 2.2137408 1.629 4.4621184C41.9805 55.4089489 41.9505 58.0067059 41.9505 58.7973276 41.9505 59.4418726 42.3825 60.1918338 43.6005 59.9554002 53.13 56.7627944 60 47.7376593 60 37.096644 60 23.7870921 49.254 13 35.9985 13" fill="#fff"/></g></g></g></svg>
+</a>
+<a class=symbol href=https://twitter.com/zensai3805 rel=me target=_blank><svg fill="#bbb" width="28" height="28" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="438.536" height="438.536" viewBox="0 0 438.536 438.536" style="enable-background:new 0 0 438.536 438.536"><g><path d="M414.41 24.123C398.333 8.042 378.963.0 356.315.0H82.228C59.58.0 40.21 8.042 24.126 24.123 8.045 40.207.003 59.576.003 82.225v274.084c0 22.647 8.042 42.018 24.123 58.102 16.084 16.084 35.454 24.126 58.102 24.126h274.084c22.648.0 42.018-8.042 58.095-24.126 16.084-16.084 24.126-35.454 24.126-58.102V82.225C438.532 59.576 430.49 40.204 414.41 24.123zM335.471 168.735c.191 1.713.288 4.278.288 7.71.0 15.989-2.334 32.025-6.995 48.104-4.661 16.087-11.8 31.504-21.416 46.254-9.606 14.749-21.074 27.791-34.396 39.115-13.325 11.32-29.311 20.365-47.968 27.117-18.648 6.762-38.637 10.143-59.953 10.143-33.116.0-63.76-8.952-91.931-26.836 4.568.568 9.329.855 14.275.855 27.6.0 52.439-8.565 74.519-25.7-12.941-.185-24.506-4.179-34.688-11.991-10.185-7.803-17.273-17.699-21.271-29.691 4.947.76 8.658 1.137 11.132 1.137 4.187.0 9.042-.76 14.56-2.279-13.894-2.669-25.598-9.562-35.115-20.697-9.519-11.136-14.277-23.84-14.277-38.114v-.571c10.085 4.755 19.602 7.229 28.549 7.422-17.321-11.613-25.981-28.265-25.981-49.963.0-10.66 2.758-20.747 8.278-30.264 15.035 18.464 33.311 33.213 54.816 44.252 21.507 11.038 44.54 17.227 69.092 18.558-.95-3.616-1.427-8.186-1.427-13.704.0-16.562 5.853-30.692 17.56-42.399 11.703-11.706 25.837-17.561 42.394-17.561 17.515.0 32.079 6.283 43.688 18.846 13.134-2.474 25.892-7.33 38.26-14.56-4.757 14.652-13.613 25.788-26.55 33.402 12.368-1.716 23.88-4.95 34.537-9.708C357.458 149.793 347.462 160.166 335.471 168.735z"/></g></svg>
+</a>
+</div>
+<div class=copyright>
+© Copyright
+2021
+<span class=split><svg fill="#bbb" width="15" height="15" id="heart-15" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15"><path d="M13.91 6.75c-1.17 2.25-4.3 5.31-6.07 6.94-.1903.1718-.4797.1718-.67.0C5.39 12.06 2.26 9 1.09 6.75-1.48 1.8 5-1.5 7.5 3.45 10-1.5 16.48 1.8 13.91 6.75z"/></svg>
+</span>
+Ryosei.iwai
+</div>
+<div class=powerby>
+Powered by <a href=http://www.gohugo.io/>Hugo</a> Theme By <a href=https://github.com/nodejh/hugo-theme-cactus-plus>nodejh</a>
+</div>
+</footer>
+</body>
+</html>
