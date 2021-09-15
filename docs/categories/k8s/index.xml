@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>k8s on iwakero.com</title><link>/categories/k8s/</link><description>Recent content in k8s on iwakero.com</description><generator>Hugo -- gohugo.io</generator><language>ja</language><copyright>&amp;copy; Copyright 2020, ryosei iwai</copyright><atom:link href="/categories/k8s/index.xml" rel="self" type="application/rss+xml"/><item><title>aws-load-balancer-controller が pod を target group に追加するまでの流れ</title><link>/post/20210915/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/post/20210915/</guid><description>はじめに aws-load-balancer-controller(albc) は k8s cluster で ALB,NLB を使う際、勝手に LB を立ててくれて勝手に target group の lisner を弄ってくれるので便利
+AWS Load Balancer Controller https://github.com/kubernetes-sigs/aws-load-balancer-controller
+k8s &amp;amp; LB であるあるの問題が rolling update 時の 502 で、これは両者が非同期で処理を進めることに起因する
+原因としては以下の記事が見やすく、
+スマホゲームの API サーバにおける EKS の運用事例 https://labs.gree.jp/blog/2020/01/20271/
+対応としてはこの辺も参考になる
+[AWS][EKS] Zero downtime deployment(RollingUpdate) when using ALB Ingress Controller on Amazon EKS https://easoncao.com/zero-downtime-deployment-when-using-alb-ingress-controller-on-amazon-eks-and-prevent-502-error/
+NEG とは何か https://medium.com/google-cloud-jp/neg-%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%8B-cc1e2bbc979e
+ざっくりな原因は、
+pod の terminate 時に target group から削除されている保証がない pod の terminate 時に、代わりの pod 達が target group で healthy になっている保証がない の2点で、</description></item></channel></rss>
