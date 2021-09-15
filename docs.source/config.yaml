@@ -1,4 +1,5 @@
 baseURL: https://iwakero.com
+publishDir: "../docs"
 languageCode: en-us
 title: iwakero.com
 theme:
