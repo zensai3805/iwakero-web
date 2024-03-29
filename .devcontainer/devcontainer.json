@@ -2,6 +2,6 @@
     "name": "hugo-ubuntu",
     "image": "ubuntu:22.04",
     "features": {
-        "ghsr.io/devcontainer/ghcr.io/devcontainers/features/hugo:1" {}
+        "ghsr.io/devcontainer/ghcr.io/devcontainers/features/hugo:1": {}
     }
 }
